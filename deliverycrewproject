@@ -1,0 +1,82 @@
+[]
+#import modules
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+from sklearn import cluster
+
+#gambarkan grafik dalam inline
+%matplotlib inline
+sns.set()
+plt.style.use('ggplot')
+
+[]
+#bagaimana kalau kita aplikasikan ke data driver sebelumnya
+#import data
+df = pd.read_csv('deliverycrew.csv', delimiter=";")
+
+df
+
+[]
+df.info()
+
+[]
+#Getting the values and plotting it
+f1 = df['Distance_Feature'].values
+f2 = df['Speeding_Feature'].values
+X = np.array(list(zip(f1, f2)))
+plt.scatter(f1, f2,  s=7)
+plt.xlabel('distance')
+plt.ylabel('speeding')
+
+[]
+#untuk mengetahhui centroid gunakan kode ini
+df_2_vars = df.drop(['Driver_ID'], axis=1)
+data = df_2_vars.values
+data
+
+[]
+data.shape
+
+[]
+k = 4
+kmeans = cluster.KMeans(n_clusters=k)
+kmeans.fit(data)
+
+[]
+cluster.KMeans?
+
+[]
+labels= kmeans.predict(data)
+labels
+
+[]
+Centroids = kmeans.cluster_centers_
+C_x = Centroids[:,0]
+C_y = Centroids[:,1]
+Centroids
+
+[]
+plt.xlabel('distance')
+plt.ylabel('speeding')
+plt.scatter(f1, f2, c=labels, s=7, cmap = plt.cm.cool)
+plt.scatter(C_x, C_y, marker='*', s=200, c='g')
+plt.scatter?
+
+#centroid dari kedua peta yang diberi k =2 jadi peta ada 2 bagian,(*kalau mau 4 bagian atur k=4) ini adalah:
+#array([[ 50.40482436,  32.36533958],[180.34311782,  10.52011494], [ 49.99263253,   5.20447169] [177.83509615,  70.28846154]])
+#hasil grafik ini cara baca centroidnya berdasarkan rumus centroidnya adalah x1=50.32 dan x2=180.10 x3=49,5 x4= 177,  70
+#jadi rata rata driver nya didapat rata2 kecepatanya yg peta 1 adalah 30 m/s dan speeding 26 persen perhari
+# dan peta kedua kecepatannya 62 m/s dan speeding 55 %
+# UNTUK MENGETAHUI TITIK ARRAY CENTROIDNYA tinggal buat line baru ketik centorids lalu ran
+
+
+[]
+Centroids # nilai k sudah diatur 4 cara baca 1 bintang (x,y)(50 , 32)dalam 1 bintang ada (x,y) dan seterussnya
+#RUN centtroids akan kluar 
+
+array([[ 50.40482436,  32.36533958],
+       [180.34311782,  10.52011494],
+       [ 49.99263253,   5.20447169],
+       [177.83509615,  70.28846154]])
